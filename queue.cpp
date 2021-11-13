@@ -11,7 +11,7 @@ Node* getNewNode(int val){
 	node->next = NULL;
 	return node;
 }
-Node* push(Node* tail,int x){
+Node* push(Node* tail, int x){
 	if(tail == NULL){
 		tail = getNewNode(x);
 		return tail;
@@ -21,7 +21,7 @@ Node* push(Node* tail,int x){
 	tail = node;
 	return tail;
 }
-Node* pop(Node* head,int x){
+Node* pop(Node* head, int x){
 	if(head == NULL)return head;
 	Node*temp = head;
 	head = head->next;
@@ -52,13 +52,13 @@ int main(){
 		if(str == "push"){
 			cin >> x;
 			if(tail == NULL){
-				tail = push(tail,x);
+				tail = push(tail, x);
 				head = tail;
 			}
-			else tail = push(tail,x);
+			else tail = push(tail, x);
 		}
 		if(str == "pop"){
-			head = pop(head,x);
+			head = pop(head, x);
 			if(head == NULL)tail = NULL;
 		}
 		if(str == "isEmpty"){

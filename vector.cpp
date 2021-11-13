@@ -2,8 +2,7 @@
 #include<string>
 #include<vector>
 using namespace std;
-
-void printVector(vector<int> vec){
+void printVector(vector<int> vec = {42, 100}){
 	for(int i=0; i<vec.size(); i++){
 		cout << vec[i] << ", ";
 	}
@@ -16,5 +15,6 @@ int main(){
 	v.push_back(20);
 	v.push_back(30);
 	printVector(v);
+	printVector();
 	return 0;
 }

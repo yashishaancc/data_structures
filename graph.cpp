@@ -14,7 +14,7 @@ Node* getNewNode(int ve){
 	node->next = NULL;
 	return node;
 }
-Node* pushStack(Node* head,int x){
+Node* pushStack(Node* head, int x){
 	if(head == NULL){
 		Node* Head = getNewNode(x);
 		return Head;
@@ -24,7 +24,7 @@ Node* pushStack(Node* head,int x){
 	head = node;
 	return head;
 }
-Node* pushQueue(Node* tail,int x){
+Node* pushQueue(Node* tail, int x){
 	if(tail == NULL){
 		tail = getNewNode(x);
 		return tail;
@@ -36,7 +36,7 @@ Node* pushQueue(Node* tail,int x){
 }
 Node* pop(Node* head){
 	if(head == NULL)return head;
-	Node*temp = head;
+	Node* temp = head;
 	head = head->next;
 	cout << "Popped : " << temp->vertex << endl;
 	free(temp);
@@ -55,7 +55,7 @@ void printStack(Node* head){
 	}
 	cout << endl;
 }
-Node* insert(Node* head,int v2,int w){
+Node* insert(Node* head, int v2, int w){
 	Node* Head = head;
 	if(head == NULL){
 		head = getNewNode(v2);
@@ -68,11 +68,11 @@ Node* insert(Node* head,int v2,int w){
 	head = temp;
 	return head;
 }
-void printDFS(vector<Node*> v,int s){
+void printDFS(vector<Node*> v, int s){
 	cout << "printing DFS" << endl;
 	Node* head = NULL;
 	vector<bool> visited(v.size(), false);
-	head = pushStack(head,s);
+	head = pushStack(head, s);
 	visited[s] = true;
 	cout << "visiting: " << s << endl;
 	while(!isEmpty(head)){
@@ -123,12 +123,13 @@ void printBFS(vector<Node*> v, int s){
 				list = list->next;
 			}
 			head = pop(head);
+			if(head == NULL)tail = NULL;
 		}
 		count = newcount;
 		newcount = 0;
 	}
 }
-int findMin(vector<int> d,vector<bool> confirmed){
+int findMin(vector<int> d, vector<bool> confirmed){
 	int min = INF,minIndex = -1;
 	for(int i = 1; i < d.size(); i++){
 		if(!confirmed[i] && d[i] < min){
@@ -138,15 +139,15 @@ int findMin(vector<int> d,vector<bool> confirmed){
 	}
 	return minIndex;
 }
-int findDijkstra(vector<Node*> AdjList,int start,int end){
-	vector<int> d(AdjList.size(),INF);
-	vector<bool> confirmed(AdjList.size(),false);
+int findDijkstra(vector<Node*> AdjList, int start, int end){
+	vector<int> d(AdjList.size(), INF);
+	vector<bool> confirmed(AdjList.size(), false);
 	d[start] = 0;
 	// confirmed[start]=true;
 	int i = AdjList.size()-1;
 	while(i){
-		int vertex = findMin(d,confirmed);
-		cout << "findMin return: " << vertex << endl;
+		int vertex = findMin(d, confirmed);
+		// cout << "findMin return: " << vertex << endl;
 		confirmed[vertex] = true;
 		Node* List = AdjList[vertex];
 		while(List != NULL){
@@ -160,9 +161,31 @@ int findDijkstra(vector<Node*> AdjList,int start,int end){
 	// cout << d << endl;
 	return d[end];
 }
+vector<Node*> minSpanningTree(vector<Node*> AdjList){
+	vector<int> d(AdjList.size(),  INF);
+	vector<bool> confirmed(AdjList.size(), false);
+	vector<Node*> Adj(AdjList.size(), NULL);
+	d[1] = 0;
+	int i = AdjList.size()-1;
+	while(i){
+		int vertex = findMin(d, confirmed);
+		confirmed[vertex] = true;
+		Node* list = AdjList[vertex];
+		while(!isEmpty(list)){
+			if(list->w < d[list->vertex]){
+				d[list->vertex] = list->w;
+				Adj[list->vertex] = getNewNode(vertex);
+				Adj[list->vertex]->w = list->w;
+			}
+			list = list->next;
+		}
+		i--;
+	}
+	return Adj;
+}
 void printLinkedList(Node* head){
 	while(head != NULL){
-		cout << head->vertex << " ";
+		cout << head->vertex << "(" << head->w << ") ";
 		head =  head->next;
 	}
 }
@@ -174,34 +197,39 @@ void printAdjList(vector<Node*> v){
 	}
 }
 int main(){
-	int V,E,v1,v2,w;
+	int V, E, v1, v2, w;
 	cin >> V >> E;
 	int start = 1,end = V;
-	vector<Node*> v(V+1,NULL);
-	// for(int i = 0; i <= V; i++){
-	// 	v.push_back(NULL);
-	// }
+	vector<Node*> v(V+1, NULL);
 	for(int i = 1; i <= E; i++){
 		cin >> v1 >> v2 >> w;
-		v[v1] = insert(v[v1],v2,w);
-		v[v2] = insert(v[v2],v1,w);
+		v[v1] = insert(v[v1], v2, w);
+		v[v2] = insert(v[v2], v1, w);
 		// printAdjList(v);
 	}
 	printAdjList(v);
-	printDFS(v,1);
-	printBFS(v,1);
+	printDFS(v, 1);
+	printBFS(v, 1);
 	cout << "Shortest path length from " << start << " to " << end
 		 << " is: " << endl;
-	cout << findDijkstra(v,1,V) << endl;
+	cout << findDijkstra(v, 1, V) << endl;
+	vector<Node*> Adj = minSpanningTree(v);
+	cout << "Printing parent nodes in minimum spanning tree: \n";
+	printAdjList(Adj);
+	cout << "Weight of minimun spanning tree is: ";
+	int sum = 0;
+	for(int i = 2; i < Adj.size(); i++)sum += Adj[i]->w;
+	cout << sum << endl;
 	return 0;
 }
 // 4 6   1 2 1   1 3 4   1 4 7   2 3 2   2 4 6   3 4 3
-   //       2
-   //  2---------3
-   //  |\6    __/|
-   //  |  \__/   |
-   // 1|   _\_   |3
-   //  | _/4  \_ |
-   //  |/       \|
-   //  1---------4
-   //       7
+   //      2
+   //  2------3
+   //  |\6   /|
+   //  | \  / |
+   // 1|  \/  |3
+   //  |  /\  |
+   //  | /  \ |
+   //  |/4   \|
+   //  1------4
+   //      7

@@ -10,7 +10,7 @@ Node* getNewNode(int in){
 	node->i = in;
 	return node;
 }
-Node* insertAtHead(Node* head,int in){
+Node* insertAtHead(Node* head, int in){
 	// Node* node=(Node*)malloc(sizeof(Node));
 	// node->i=in;
 	Node* node = getNewNode(in);
@@ -21,7 +21,7 @@ Node* insertAtHead(Node* head,int in){
 Node* reverseLinkList(Node* head){
 	Node* newHead = NULL;
 	while(head != NULL){
-		newHead = insertAtHead(newHead,head->i);
+		newHead = insertAtHead(newHead, head->i);
 		head = head->next;
 	}
 	return newHead;
@@ -40,7 +40,7 @@ Node* ReverseLinkList(Node* head){
 	curr->next = prev;
 	return curr;
 }
-void insert(Node* head,int x,int y){
+void insert(Node* head, int x, int y){
 	while(head != NULL){
 		if(head->i == x){
 			Node* node = head->next;
@@ -52,7 +52,7 @@ void insert(Node* head,int x,int y){
 		head = head->next;
 	}
 }
-Node* Delete(Node* head,int x){
+Node* Delete(Node* head, int x){
 	if(head->i == x){
 		Node* node = head;
 		head = head->next;
@@ -71,7 +71,7 @@ Node* Delete(Node* head,int x){
 	}
 	return Head;
 }
-Node* deleteAll(Node* head,int x){
+Node* deleteAll(Node* head, int x){
 	while(head != NULL && head->i == x){
 		Node* node = head;
 		head = head->next;
@@ -109,7 +109,7 @@ int main(){
 	// cout<<a[1][2]<<endl;
 	// cout<<*(*(a+1)+2)<<endl;
 	Node* head = NULL;
-	int n,q;
+	int n, q;
 	cin >> n >> q;
 	for(int i = 0; i < n; i++){
 		int in;
@@ -121,22 +121,23 @@ int main(){
 	head = ReverseLinkList(head);
 	printList(head);
 	for(int i = 0; i < q; i++){
-		int x,y;
+		int x, y;
 		string str;
 		cin >> str;
 		if(str == "add"){
-			cin >> x>> y;
-			insert(head,x,y);
+			cin >> x >> y;
+			insert(head, x, y);
 		}
 		else if(str == "del"){
-			cin>>x;
-			head = Delete(head,x);
+			cin >> x;
+			head = Delete(head, x);
 		}
 		else if(str == "delAll"){
-			cin>>x;
-			head = deleteAll(head,x);
+			cin >> x;
+			head = deleteAll(head, x);
 		}
 		printList(head);
 	}
 	return  0;
 }
+// 10 100    10 20 30 40 50 60 70 80 90 100

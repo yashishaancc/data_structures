@@ -11,7 +11,7 @@ Node* getNewNode(int val){
 	node->next = NULL;
 	return node;
 }
-Node* push(Node* head,int x){
+Node* push(Node* head, int x){
 	if(head == NULL){
 		Node* Head = getNewNode(x);
 		return Head;
@@ -50,7 +50,7 @@ int main(){
 		int x;
 		if(str == "push"){
 			cin >> x;
-			head = push(head,x);
+			head = push(head, x);
 		}
 		if(str == "pop"){
 			head = pop(head);
