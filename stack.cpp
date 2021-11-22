@@ -23,7 +23,7 @@ Node* push(Node* head, int x){
 }
 Node* pop(Node* head){
 	if(head == NULL)return head;
-	Node*temp = head;
+	Node* temp = head;
 	head = head->next;
 	cout << "Popped : " << temp->val << endl;
 	free(temp);
@@ -46,6 +46,7 @@ int main(){
 	Node* head = NULL;
 	while(1){
 		string str;
+		cout << "\x1b[33mPossible commands are: push x, pop, isEmpty\x1b[0m\n";
 		cin >> str;
 		int x;
 		if(str == "push"){
@@ -56,7 +57,7 @@ int main(){
 			head = pop(head);
 		}
 		if(str == "isEmpty"){
-			cout << isEmpty(head) << endl;
+			cout << boolalpha << isEmpty(head) << endl;
 		}
 		printStack(head);
 	}

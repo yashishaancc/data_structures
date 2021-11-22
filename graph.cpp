@@ -5,7 +5,7 @@ using namespace std;
 #define INF 2147483647
 typedef struct node{
 	int vertex;
-	int w;
+	int w;	
 	struct node* next;
 }Node;
 Node* getNewNode(int ve){

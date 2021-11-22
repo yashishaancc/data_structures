@@ -42,8 +42,8 @@ void print(int n, int c[][4], int arr[][2], int id, int* cnt){
 		cout << "solved\n";
 		cout << id << " steps:" << endl;
 		for(i = 0; i < id; i++){
-			cout << "Move water from " << arr[i][0] << " to " << arr[i][1] 
-				 << endl;
+			cout << i+1 << "--->\tMove water from " << arr[i][0]+1 
+				 << " to " << arr[i][1]+1 << endl;
 		}
 	}
 }

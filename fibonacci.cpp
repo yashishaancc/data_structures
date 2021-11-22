@@ -11,7 +11,7 @@ int main(){
 	for(i = 0; i <= n; i++)cout << i << "\t21: " << arr[i] << endl;
 	cout << endl;
 	while(1){
-		cout << "Enter index from 0 to 100000 in fibonacci series"
+		cout << "Enter index from 0 to 100000 in fibonacci series "
 			 <<	"at which you want to find the fibonacci number: ";
 		cin >> n;
 		int a[n+1], b[n+1], c[n+1];

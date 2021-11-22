@@ -47,6 +47,7 @@ int main(){
 	Node* tail = NULL;
 	while(1){
 		string str;
+		cout << "\x1b[33mPossible commands are: push x, pop, isEmpty\x1b[0m\n";
 		cin >> str;
 		int x;
 		if(str == "push"){
@@ -62,7 +63,7 @@ int main(){
 			if(head == NULL)tail = NULL;
 		}
 		if(str == "isEmpty"){
-			cout << isEmpty(head) << endl;
+			cout << boolalpha << isEmpty(head) << endl;
 		}
 		printQueue(head);
 	}
