@@ -17,12 +17,10 @@ void merge(int* a, int l, int mid, int r){
     for(i = 0; i < s2; i++)a2[i] = a[mid+1+i];
     for(i = l; i <= r; i++){
         if(p2 >= s2 || p1 < s1 && a1[p1] < a2[p2]){
-            a[i] = a1[p1];
-            p1++;
+            a[i] = a1[p1]; p1++;
         }
         else{
-            a[i] = a2[p2];
-            p2++;
+            a[i] = a2[p2]; p2++;
         }
     }
 }
@@ -55,11 +53,9 @@ void selectionSort(int* a, int l, int r){
 	}
 }
 void bubbleSort(int* a, int l, int r){
-	for(int i = r; i > l; i--){
-		for(int j = l; j < i; j++){
+	for(int i = r; i > l; i--)
+		for(int j = l; j < i; j++)
 			if(a[j+1] < a[j])swap(&a[j+1], &a[j]);
-		}
-	}
 }
 void mergeSort(int* a, int l, int r){
 	int mid = (l+r)/2;
@@ -75,6 +71,16 @@ void heapSort(int* a, int l, int r){
 		maxHeapify(a, l, i-1);
 	}
 }
+void quickSort(int* a, int l, int r){
+	int piv = a[r], i, j = l-1;
+	for(i = l; i <= r; i++)
+		if(a[i] <= piv){
+			swap(&a[i], &a[j+1]);
+			j++;
+		}
+	if(j-l > 1)quickSort(a, l, j-1);
+	if(r-j > 1)quickSort(a, j+1, r);
+}
 int main(){
 	int i, n;
 	cout << "Enter size of array: ";
@@ -86,7 +92,8 @@ int main(){
 	// selectionSort(a,0, n-1);
 	// bubbleSort(a, 0, n-1);
 	// mergeSort(a, 0, n-1);
-	heapSort(a, 0, n-1);
+	// heapSort(a, 0, n-1);
+	quickSort(a, 0, n-1);
 	printArray(a, n);
 	return 0;
 }
