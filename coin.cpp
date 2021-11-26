@@ -1,6 +1,7 @@
 #include<iostream>
 using namespace std;
 void solve(int grid[][6], int arr[][2], int g[][6][6], int itr, int* cnt){
+	cout << itr << endl;
 	int i, j, k, l, m, newgrid[6][6], c = 0, flag;
 	for(i = 0; i < 6; i++)for(j = 0; j < 6; j++)newgrid[i][j] = grid[i][j];
 	for(k = 0; k < 6; k++)for(l = 0; l < 6; l++)if(grid[k][l])c++;
@@ -41,7 +42,7 @@ void solve(int grid[][6], int arr[][2], int g[][6][6], int itr, int* cnt){
 }
 int main(){
 	int i, j, n = 6, cnt = 0;
-	int grid[6][6], arr[1000][2], g[1000][6][6];
+	int grid[6][6], arr[10000][2], g[10000][6][6];
 	cout << "Enter 6x6 grid(0 for green, 1 for yellow:\n";
 	for(i = 0; i < n; i++)for(j = 0; j < n; j++)cin >> grid[i][j];
 	for(i = 0; i < n; i++)for(j = 0; j < n; j++)g[0][i][j] = grid[i][j];
