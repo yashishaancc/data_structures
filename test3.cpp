@@ -23,5 +23,11 @@ int main(){
 	int* r = int_to_idx(x);
 	for(int i = 0; i < jugs; i++)cout << r[i] << " ";
 	cout << endl;
+	int* b = (int*)malloc(2*sizeof(int));
+	int* c = (int*)malloc(1*sizeof(int));
+	b = c;
+	if(b == c)cout << boolalpha << bool(131) << endl;
+	cout << bool(1.2) << endl;
+	cout << noboolalpha << false << endl;
 	return 0;
 }

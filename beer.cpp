@@ -10,7 +10,8 @@ typedef struct node{
 int desired, jugs, n = 1;
 int* cap;
 int* filled;
-bool *visited;
+bool* visited;
+int* movement;
 State** parents;
 State* getNewState(int* filled){
 	State* state = (State*)malloc(sizeof(State));
@@ -41,25 +42,36 @@ Node* popQueue(Node* head){
 	head = next;
 	return head;
 }
-void print(State* state){
-	// cout << "Hello\n";
-	for(int i = 0; i < jugs; i++){
-		// cout << "i: " << i << endl;
-		// if(state->water == NULL)cout << "NULL\n";
-		cout << state->water[i] << " ";
+Node* pushStack(Node* head, State* state){
+	if(head == NULL){
+		Node* Head = getNewNode(state);
+		return Head;
 	}
-	// cout << "HI\n";
+	Node* node = getNewNode(state);
+	node->next = head;
+	head = node;
+	return head;
+}
+Node* popStack(Node* head){
+	if(head == NULL)return head;
+	Node* temp = head;
+	head = head->next;
+	free(temp);
+	return head;
+}
+void print(State* state){
+	for(int i = 0; i < jugs; i++){
+		cout << state->water[i] << "\t";
+	}
 	cout << endl;
 }
 void print(Node* node){
 	while(node != NULL){
-		// cout << "In while loop: " << endl;
 		print(node->state);
-		// cout << "After print in while loop\n";
 		node = node->next;
 	}
 }
-void print_arr(int arr[][2], int grid[][100], int jugs, int itr){
+void print(int arr[][2], int grid[][100], int jugs, int itr){
 	cout << "solved\n";
 	cout << itr << " steps:\t\t\tjug1\tjug2\tjug3" << endl;
 	for(int i = 0; i < itr; i++){
@@ -135,6 +147,7 @@ Node* allValidUnvisitedNeighbours(State* state, int jugs, int* cap){
 				if(visited[offset])continue;
 				visited[offset] = true;
 				parents[offset] = state;
+				movement[offset] = i*jugs+j;
 				if(head == NULL){
 					tail = pushQueue(tail, next_state);
 					head = tail;
@@ -167,11 +180,13 @@ bool is_destination(State* state){
 void BFS(State *start_state, int jugs, int* cap){
 	for(int i = 0; i < n; i++)visited[i] = false;
 	for(int i = 0; i < n; i++)parents[i] = NULL;
+	for(int i = 0; i < n; i++)movement[i] = 0;
 	Node* head = NULL;
 	Node* tail = NULL;
 	tail = pushQueue(tail, start_state);
 	head = tail;
 	visited[idx_to_int(start_state)] = true;
+	cout << "Solving using BFS:\n";
 	while(head != NULL){
 		Node* new_head = NULL;
 		Node* new_tail = NULL;
@@ -196,9 +211,25 @@ void BFS(State *start_state, int jugs, int* cap){
 				if(is_destination(neighbours->state)){
 					State* curr_state = neighbours->state;
 					State* parent_state = curr_state;
-					while(parent_state != NULL){
-						print(parent_state);
+					int c1 = 0, c2 = 0;
+					Node* Head = NULL;
+					while (parent_state != NULL){
+						Head = pushStack(Head, parent_state);
 						parent_state = parents[idx_to_int(parent_state)];
+						c1++;
+					}
+					cout << "solved\n";
+					cout << c1-1 << " steps:\t\t\tjug1\tjug2\tjug3\n";
+					while(Head != NULL){
+						State* child_state = Head->state;
+						Head = popStack(Head);
+						cout << c2 << "--->\tMove beer from "
+							 << movement[idx_to_int(child_state)]/jugs+1
+							 << " to "
+							 << movement[idx_to_int(child_state)]%jugs+1
+							 << "\t";
+						print(child_state);
+						c2++;
 					}
 					// print and return whatever needed
 					return;
@@ -227,7 +258,7 @@ void solve(int desired, int jugs, int* cap, int* filled, int itr, int arr[][2],
 	for(i = 0; i < jugs; i++){
 		if(filled[i] == desired){
 			(*cnt)++;
-			print_arr(arr, grid, jugs, itr);
+			print(arr, grid, jugs, itr);
 			break;
 		}
 	}
@@ -246,7 +277,8 @@ void solve(int desired, int jugs, int* cap, int* filled, int itr, int arr[][2],
 				}
 				if(flag && itr <= 12 && (*cnt) == 0){
 					for(k = 0; k < jugs; k++)grid[k][itr+1] = filledcopy[k];
-					solve(desired, jugs, cap, filledcopy, itr+1, arr, grid, cnt);
+					solve(desired, jugs, cap, filledcopy, itr+1, arr, grid,
+					 	cnt);
 				}
 			}
 			for(k = 0; k < jugs; k++)filledcopy[k] = filled[k];
@@ -269,11 +301,12 @@ int main(){
 	for(i = 0; i < jugs; i++)grid[i][0] = filled[i];
 	for(i = 0; i < jugs; i++)n *= cap[i]+1;
 	visited = (bool*)malloc(n*sizeof(bool));
+	movement = (int*)malloc(n*sizeof(int));
 	parents = (State**)malloc(n*sizeof(State*));
 	int cnt = 0;
 	solve(desired, jugs, cap, filled, 0, arr, grid, &cnt);
 	State* start_state = getNewState(filled);
-	// BFS(start_state, jugs, cap);
+	BFS(start_state, jugs, cap);
 	return 0;
 }
 // 8   3   16 11 6   16 0 0
