@@ -17,7 +17,7 @@ void partition(int* str, int n, int len, int min, int* c){
 }
 int main(){
 	int n;
-	cout << "Enter a number(0 to 100) to find partitions:";
+	cout << "Enter a number(0 to 100) to find partitions: ";
 	cin >> n;
 	int str[n];
 	int* c;

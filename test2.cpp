@@ -1,6 +1,6 @@
 #include<iostream>
 #include<cstring>
-#include<graphics.h>
+// #include<graphics.h>
 using namespace std;
 void print(int l, int m, int n, int* grid){
 	for(int i = 0; i < l; i++){

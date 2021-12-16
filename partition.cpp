@@ -1,7 +1,7 @@
 #include<stdio.h>
 int main(){
   int n, p, i, j;
-  printf("Enter a number(0 to 405) to find partitions:");
+  printf("Enter a number(0 to 405) to find partitions: ");
   scanf("%d", &n);
   long a[n+1][n+1];
   a[0][1] = 1;
